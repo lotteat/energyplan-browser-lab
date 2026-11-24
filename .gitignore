@@ -9,3 +9,7 @@ __pycache__/
 .openai/
 .sites-checkout/
 *.log
+
+# Recreated with python3 scripts/prepare.py
+/dist/engine/root-*.bin
+/dist/examples/*-output.txt

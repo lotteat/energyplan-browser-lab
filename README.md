@@ -2,7 +2,7 @@
 
 Run the original **EnergyPLAN 16.3** Windows executable in a web browser, change a small set of assumptions, and compare energy-system scenarios. The interface is in Danish and was built as an experimental workshop demonstration for **AI Agents in Research / Sustainable Energy Planning**.
 
-**Live demonstration:** https://energyplan-futures-lab.lottea.chatgpt.site/
+**Til workshopdeltagere:** [Åbn EnergyPLAN i browseren](https://energyplan-futures-lab.lottea.chatgpt.site/). Du behøver hverken login eller installation. Vælg **Se beregnede eksempler** for en hurtig start, eller **Kør beregning** for at prøve dit eget scenarie.
 
 > **Validation status:** two complete browser calculations have been observed. Numerical agreement with a separate native Windows run has **not** been established. The supplied scenario produces three model warnings and is not a validated energy plan. This is an independent demonstration, not an official AAU web service.
 
@@ -17,13 +17,14 @@ Run the original **EnergyPLAN 16.3** Windows executable in a web browser, change
 
 The website itself is **not an AI agent**. It does not call an LLM or require an OpenAI API key. Visitor calculations do not consume the site owner's AI tokens. An AI agent could later use the tool as part of a research workflow; that integration is not included here.
 
-## Run locally
+## Run your own copy
 
-You need **Git**, **Python 3**, and a desktop browser. Chrome was used for the recorded browser tests. Node.js 22 or later is needed only for the repository checks below.
+These steps are for someone running or hosting a copy. Participants using the workshop link above can skip them. You need **Git**, **Python 3**, and a desktop browser. Chrome was used for the recorded browser tests. Node.js 22 or later is needed only for the repository checks below.
 
 ```sh
 git clone https://github.com/lotteat/energyplan-browser-lab.git
 cd energyplan-browser-lab
+python3 scripts/prepare.py
 python3 -m http.server 8000 --bind 127.0.0.1 --directory dist
 ```
 
@@ -31,7 +32,9 @@ On Windows, use `py -3` in place of `python3` if needed. For a private repositor
 
 Open **http://localhost:8000/**. On the first visit, the service worker may reload the page to enable the isolated browser environment. Open the page as a top-level tab, keep it visible during a run, and allow service workers.
 
-There is no build step, dependency installation, local Wine installation, API key, or database setup. The runtime and example files are included. Opening `dist/index.html` directly through `file://` is not supported.
+The preparation script uses the Python standard library. It expands the two recorded outputs from the repository, downloads the **96.5 MB Wine filesystem** from the versioned Boxedwine URL in [the manifest](dist/engine/manifest.json), verifies its SHA-256 checksum, and splits it into the 12 files the browser expects. It checks existing files on later runs and skips the download if they are intact. No system Wine installation or API key is needed. Use the local web server; opening `dist/index.html` through `file://` does not work.
+
+**For an offline workshop:** run preparation once before the event. If you only want to show the recorded results, use `python3 scripts/prepare.py --examples-only` instead; it needs no network after cloning. To enable new calculations offline, supply a previously downloaded copy of [the pinned Wine archive](https://boxedwine.org/v2/41/TinyCore15Wine11.0-web.zip) with `python3 scripts/prepare.py --wine-archive /path/to/TinyCore15Wine11.0-web.zip`, then start the same local server. A different archive is rejected.
 
 For a quick first look, select **“Se beregnede eksempler”**. To execute the model, choose a preset or edit the inputs and select **“Kør beregning”**.
 
@@ -89,7 +92,7 @@ The following complete calculations were observed on the deployed site in Chrome
 
 These values document the supplied demonstration, not general EnergyPLAN behaviour. The price assumptions belong to the source dataset and are not a current cost forecast.
 
-The actual input and output files are in [`dist/examples/`](dist/examples/). Their recording times and output SHA-256 checksums are in [`index.json`](dist/examples/index.json). Selecting an example loads a recorded result and does not execute a fresh calculation.
+The recorded inputs, recording times, and [output checksums](dist/examples/index.json) are in [`dist/examples/`](dist/examples/). The original outputs are stored losslessly in [`fixtures/`](fixtures/) (about 0.38 MB combined). Preparation restores the exact output bytes to `dist/examples/` and verifies them; it does not rerun the model. Selecting an example loads a recorded result.
 
 **Previously checked:** original executable identity; two completed browser runs; input sensitivity; parsing of the recorded results; warnings; and byte-preserving input/output downloads.
 
@@ -118,7 +121,7 @@ This comparison remains to be done. Passing the repository checks below does not
 
 ## Check the repository
 
-With Node.js 22 or later:
+After full preparation, with Node.js 22 or later:
 
 ```sh
 node scripts/check.mjs
@@ -135,15 +138,17 @@ The check validates the runtime archive hashes, recorded output hashes, actual p
 | `dist/parser.js` | Result-field extraction and UTF-16 encoding |
 | `dist/engine.html`, `dist/engine-bridge.js` | Emulator view and EnergyPLAN integration |
 | `dist/model.json` | Source scenario text |
-| `dist/engine/` | Boxedwine runtime, Wine filesystem parts, EnergyPLAN bundle |
-| `dist/examples/` | Recorded inputs, outputs, and their metadata |
+| `dist/engine/` | Browser emulator and workshop-specific EnergyPLAN bundle; Wine filesystem parts are generated by preparation |
+| `dist/examples/` | Recorded inputs, metadata, and restored outputs |
+| `fixtures/` | Compressed originals of the two recorded outputs |
 | `dist/licenses/` | Included third-party license texts |
+| `scripts/prepare.py` | Download or restore pinned assets, verify them, and prepare `dist/` |
 | `scripts/check.mjs` | Offline repository checks |
 | `THIRD_PARTY_NOTICES.md` | Component sources, versions, and licensing scope |
 
 ## Hosting and workshop use
 
-Publish the complete **`dist/`** directory on a static host over **HTTPS**. All runtime files must remain available at their existing relative paths. Serve `.wasm` files as `application/wasm` and allow service workers and WebAssembly workers. The bundled `coi-serviceworker.js` supplies the cross-origin isolation headers needed for `SharedArrayBuffer`; the browser may reload once when it takes control. Restrictive hosting headers or embedding the site inside another page can prevent the runtime from starting.
+Run **`python3 scripts/prepare.py`** on the publishing machine or as the host's build command, then publish the complete **`dist/`** directory on a static host over **HTTPS**. A bare Git checkout is missing the generated files. Visitors get these files from the prepared site and do not need access to this repository or to Boxedwine. All runtime files must remain available at their existing relative paths. Serve `.wasm` files as `application/wasm` and allow service workers and WebAssembly workers. The bundled `coi-serviceworker.js` supplies the cross-origin isolation headers needed for `SharedArrayBuffer`; the browser may reload once when it takes control. Restrictive hosting headers or embedding the site inside another page can prevent the runtime from starting.
 
 The first runtime load transfers roughly **108 MB**. The two recorded example outputs total about **25 MB**. A new calculation can take five minutes or longer. Timing depends on the device, browser, network, and caching.
 

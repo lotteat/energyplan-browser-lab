@@ -6,7 +6,16 @@ import { fileURLToPath } from 'node:url';
 import { parseEnergyPlan, encodeUtf16 } from '../dist/parser.js';
 
 const root = new URL('../', import.meta.url);
-const read = path => readFile(new URL(path, root));
+const read = async path => {
+  try {
+    return await readFile(new URL(path, root));
+  } catch (error) {
+    if (error.code === 'ENOENT' && /(?:root-\d+\.bin|-output\.txt)$/.test(path)) {
+      throw new Error(path + ' is missing. Run python3 scripts/prepare.py, then repeat the check.');
+    }
+    throw error;
+  }
+};
 const json = async path => JSON.parse(await read(path));
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const manifest = await json('dist/engine/manifest.json');

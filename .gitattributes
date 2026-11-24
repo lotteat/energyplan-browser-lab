@@ -1,11 +1,13 @@
 *.js text eol=lf
 *.mjs text eol=lf
+*.py text eol=lf
 *.md text eol=lf
 *.html text eol=lf
 *.css text eol=lf
 *.json text eol=lf
 *.wasm binary
 *.zip binary
+*.gz binary
 *.bin binary
 dist/examples/*-input.txt binary
 dist/examples/*-output.txt binary
