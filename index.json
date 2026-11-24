@@ -1,0 +1,26 @@
+[
+  {
+    "id": "verified-reference-20261119",
+    "name": "Reference",
+    "demand": 0.699,
+    "wind": 0,
+    "solar": 0,
+    "completedAt": "2026-11-19T12:44:54Z",
+    "durationSeconds": 290,
+    "outputFile": "examples/reference-output.txt",
+    "inputFile": "examples/reference-input.txt",
+    "outputSha256": "cd407a6251a67a3a9271ec25c30ebb57962665cf3cdf934a5f4f84fe6c4b1bce"
+  },
+  {
+    "id": "verified-demand-20261119",
+    "name": "+20% elforbrug",
+    "demand": 0.8388,
+    "wind": 0,
+    "solar": 0,
+    "completedAt": "2026-11-19T12:51:27Z",
+    "durationSeconds": 297,
+    "outputFile": "examples/demand-output.txt",
+    "inputFile": "examples/demand-input.txt",
+    "outputSha256": "7eef2597232b67b0bf9d5e8f51fdafa2f70eed5eddb0924fdcc453cffeebac2c"
+  }
+]

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Kør det originale EnergyPLAN i browseren uden login. Undersøg Aalborg 2050, eller åbn to allerede beregnede eksempler.">
+<title>EnergyPLAN Lab · Energifremtider</title>
+<script src="coi-serviceworker.js"></script>
+<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./" aria-label="EnergyPLAN Lab forside"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span>EnergyPLAN <b>Lab</b></a><div class="toplinks"><span class="pill">Åbent værksted</span><a href="about.html">Om modellen</a></div></header>
+<main>
+<section class="intro"><div><p class="eyebrow">SUSTAINABLE ENERGY PLANNING</p><h1>Undersøg mulige<br>energifremtider<span>.</span></h1><p class="lead">Ændr en antagelse. Kør EnergyPLAN.<br>Se, hvordan energisystemet reagerer.</p></div><div class="intro-note"><span class="small-label">DIT UDGANGSPUNKT</span><strong>Aalborg 2050</strong><p>En eksisterende forskningscase.<br>Et sted at begynde samtalen om usikkerhed.</p><a href="about.html">Læs om forudsætningerne</a></div></section>
+<aside class="run-guide"><div><strong>Begynd med et eksempel, eller kør dit eget scenarie.</strong><span>En ny browserberegning tog cirka fem minutter i testen. Til en workshop kan du åbne allerede beregnede scenarier og deres originale resultatfiler.</span></div><button id="load-examples" class="secondary" type="button">Se beregnede eksempler</button></aside>
+<div class="workspace">
+<section class="card scenario">
+<div class="section-heading"><div><p class="eyebrow">FORUDSÆTNINGER</p><h2>Dit scenarie</h2></div><span class="tag">16.3</span></div>
+<form id="scenario-form">
+<label for="scenario-name">Navn på scenarie</label><input id="scenario-name" name="scenarioName" value="Reference" maxlength="64" required>
+<fieldset id="inputs"><legend>Vælg et udgangspunkt</legend>
+<div class="presets"><button type="button" class="preset active" data-preset="reference">Reference</button><button type="button" class="preset" data-preset="demand">+20% elforbrug</button><button type="button" class="preset" data-preset="wind">100 MW vind</button></div>
+<div class="parameter"><label for="demand">Årligt elforbrug</label><div class="input-unit"><input id="demand" name="demand" type="number" min="0.01" max="10" step="0.0001" value="0.699" required><span>TWh/år</span></div><p>Modellens grundlæggende elforbrug.</p></div>
+<div class="parameter"><label for="wind">Vindkapacitet · RES1</label><div class="input-unit"><input id="wind" name="wind" type="number" min="0" max="5000" step="1" value="0" required><span>MW</span></div><p>Den første vindkategori i basismodellen.</p></div>
+<div class="parameter"><label for="solar">Solcellekapacitet · RES3</label><div class="input-unit"><input id="solar" name="solar" type="number" min="0" max="5000" step="1" value="0" required><span>MW</span></div><p>Solcellekategorien i basismodellen.</p></div>
+</fieldset>
+<button class="primary" type="submit" id="run"><span class="play" aria-hidden="true">▶</span> Kør beregning</button><button id="stop" class="secondary" type="button" hidden>Stop beregning</button>
+<p class="run-note">Kører i din browser · intet login<br>Brug Chrome eller Firefox. Første indlæsning henter cirka 108 MB. Hold fanen åben; en beregning kan tage fem minutter eller mere.</p>
+</form>
+</section>
+<section class="results-area">
+<div class="status-strip" role="status" aria-live="polite"><span class="status-dot" id="status-dot"></span><div><strong id="status">Klar til at undersøge</strong><span id="status-detail">Vælg et scenarie, og start en beregning.</span></div><span id="elapsed"></span></div>
+<progress id="download-progress" value="0" max="100" hidden aria-label="Indlæser beregningsmotor"></progress>
+<div class="metrics"><article class="metric"><p>CO₂ · korrigeret</p><strong id="co2">—</strong><span id="co2-unit">Afventer beregning</span><span id="co2-context"></span></article><article class="metric"><p>Brændselsforbrug</p><strong id="fuel">—</strong><span id="fuel-unit">Afventer beregning</span></article><article class="metric"><p>Årlige omkostninger</p><strong id="cost">—</strong><span id="cost-unit">Afventer beregning</span></article></div>
+<section class="card output-card">
+<div class="tabs" role="tablist" aria-label="Beregningsvisning"><button id="tab-results" class="active" role="tab" aria-selected="true" aria-controls="panel-results" data-tab="results">Resultater</button><button id="tab-model" role="tab" aria-selected="false" aria-controls="panel-model" data-tab="model">EnergyPLAN-vindue</button><button id="tab-log" role="tab" aria-selected="false" aria-controls="panel-log" data-tab="log">Kørselslog</button></div>
+<div class="tab-panel" id="panel-results" role="tabpanel" aria-labelledby="tab-results">
+<div class="empty-state" id="empty"><div class="energy-icon" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div><h3>Hvad sker der, hvis…</h3><p>…elforbruget stiger, eller der kommer mere vind og sol?<br>Start med referencen, og sammenlign et nyt scenarie.</p><span class="subtle">Nøgletal vises først, når EnergyPLAN har beregnet dem.</span></div>
+<div id="completed" hidden><div class="result-heading"><div><p class="eyebrow">BEREGNET SCENARIE</p><h3 id="result-name"></h3><p id="result-meta"></p></div><span class="success-label" id="result-origin">Gennemført</span></div><p class="result-explanation">Nøgletallene er læst fra EnergyPLANs resultatfil. Kontrollér modellens forudsætninger og eventuelle advarsler i filen, før du bruger tallene videre.</p><aside id="model-warnings" class="model-warnings" hidden><strong>EnergyPLAN rapporterer advarsler</strong><p>Scenariet opfylder ikke alle modellens krav. Undersøg disse advarsler, før resultaterne bruges videre:</p><ul id="warning-list"></ul></aside><div class="downloads"><button id="download-output" class="secondary">Hent resultatfil</button><button id="download-input" class="secondary">Hent inputfil</button><button id="download-csv" class="secondary">Hent nøgletal · CSV</button></div><details><summary>Vis resultatfilen</summary><pre id="raw-result"></pre></details></div>
+</div>
+<div class="tab-panel model-panel" id="panel-model" role="tabpanel" aria-labelledby="tab-model" hidden><p class="model-note">Her kører det originale program. Lad beregningen afslutte, før du ændrer noget i vinduet.</p><div id="engine-holder"><p class="model-placeholder">Programvinduet åbnes, når du starter en beregning.</p></div></div>
+<div class="tab-panel" id="panel-log" role="tabpanel" aria-labelledby="tab-log" hidden><pre id="log">Ingen beregning startet.</pre></div>
+</section>
+</section>
+</div>
+<section class="card comparison"><div class="section-heading"><div><p class="eyebrow">SAMMENLIGN</p><h2>Scenarier i denne session</h2></div><span id="scenario-count" class="tag">0 beregninger</span></div><div class="table-wrap"><table><thead><tr><th>Scenarie</th><th>Elforbrug <small>TWh/år</small></th><th>Vind / sol <small>MW</small></th><th>CO₂ · korrigeret <small id="table-co2-unit"></small></th><th>Brændsel <small id="table-fuel-unit"></small></th><th>Omkostning <small id="table-cost-unit"></small></th></tr></thead><tbody id="history"><tr class="empty-row"><td colspan="6">Dine afsluttede beregninger samles her, så længe siden er åben.</td></tr></tbody></table></div></section>
+<section class="method-note"><span class="note-symbol" aria-hidden="true">i</span><p><strong>En model undersøger muligheder.</strong> Resultater afhænger af dine antagelser og resten af datasættet. Denne case er et læringsgrundlag, ikke en aktuel prognose for Aalborg.</p></section>
+</main>
+<footer><span>EnergyPLAN Lab <span class="footer-separator">/</span> Et eksperimentelt forskningsværksted</span><a href="about.html">Model, kilder og software</a></footer>
+<script type="module" src="app.js"></script>
+</body></html>

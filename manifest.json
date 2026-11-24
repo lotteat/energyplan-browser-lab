@@ -1,0 +1,25 @@
+{
+  "rootParts": [
+    "root-00.bin",
+    "root-01.bin",
+    "root-02.bin",
+    "root-03.bin",
+    "root-04.bin",
+    "root-05.bin",
+    "root-06.bin",
+    "root-07.bin",
+    "root-08.bin",
+    "root-09.bin",
+    "root-10.bin",
+    "root-11.bin"
+  ],
+  "rootSha256": "d950fe71d6c078e7218a143f675fde80f80e5c451a8c07a43d6425302be900c0",
+  "appSha256": "3b4365eac811277d83111a533ef4f5435797a325cd7de908646739d400dbf9ce",
+  "executableSha256": "9f65cc0e69e5a715b52854fc1aebbfa8a00a6bbfd1118dd348ba293224fc07ae",
+  "totalBytes": 103434399,
+  "wineVersion": "11.0-web-v41",
+  "rootSource": "https://boxedwine.org/v2/41/TinyCore15Wine11.0-web.zip",
+  "runtimeSource": "https://boxedwine.org/builds/branches/master/builds/140/artifacts/build-140.zip",
+  "runtimeVersion": "master140-mt-interpreter",
+  "runtimeSha256": "31484b25f517d71f7fe30343b56f4259ebcff6e6c2677dd6909073add888a6a4"
+}
