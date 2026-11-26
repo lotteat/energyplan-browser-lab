@@ -1,1 +1,63 @@
-<!doctype html><html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Model og kilder · EnergyPLAN Lab</title><link rel="icon" href="icon.svg"><link rel="stylesheet" href="styles.css"></head><body><header class="topbar"><a class="brand" href="./">EnergyPLAN <b>Lab</b></a><a style="color:white;font-size:14px" href="./">Tilbage til værkstedet</a></header><main><article class="card about"><p class="eyebrow">MODEL, KILDER OG SOFTWARE</p><h1>Hvad beregner vi?</h1><aside class="run-guide"><div><strong>Browserberegning er verificeret.</strong><span>Den originale EnergyPLAN-motor har leveret resultatfiler. En referencekørsel tog cirka fem minutter i browsertesten. Datasættet giver modeladvarsler og er et læringseksempel; beregningerne er ikke en fagligt valideret energiplan.</span></div></aside><p>Dette værksted kører den originale Windows-udgave af EnergyPLAN 16.3 via et beregningsmiljø i din browser. EnergyPLAN er udviklet ved Aalborg Universitet og bruges til at analysere samspil mellem dele af et energisystem.</p><p>Værkstedet er en uafhængig, eksperimentel brugerflade. Det er ikke AAU's officielle EnergyPLAN-tjeneste.</p><h2>Et eksisterende forskningsscenarie</h2><p>Basismodellen er filen <code>Aalborg2050.txt</code> fra det offentlige forskningsrepository HyRES-FBK/moea. Navnet angiver scenariets tidshorisont; det gør ikke datasættet til en opdateret prognose eller en vedtaget kommunal plan.</p><p>Brugerfladen ændrer tre parametre: <code>Input_el_demand_Twh</code>, <code>input_RES1_capacity</code> og <code>input_RES3_capacity</code>. Øvrige input og timeprofiler stammer fra basismodellen. Nul i vindfeltet gælder RES1-kategorien og betyder ikke nødvendigvis, at alle vindkategorier i energisystemet er nul.</p><p>EnergyPLANs egne outputværdier og enheder vises. CO₂-kortet viser feltet <code>CO2-emission (corrected)</code>; det direkte modeltotal vises nedenunder. Begge værdier kommer fra EnergyPLAN. Afgrænsning og korrektioner skal undersøges, før værdier sammenlignes med andre analyser. Omkostningerne bruger datasættets oprindelige prisforudsætninger.</p><h2>Sådan bruges værkstedet</h2><ol><li>Kør først referencen.</li><li>Ændr én antagelse, eksempelvis elforbruget med 20%.</li><li>Sammenlign nøgletallene og læs den fulde resultatfil.</li><li>Download input og output, så beregningen kan undersøges og gentages.</li></ol><p>Beregningen foregår på den enhed, hvor du åbner siden. Ingen konto eller Windows-installation er nødvendig. Brug Chrome eller Firefox. Kørsel på en fysisk Mac og i Safari er endnu ikke testet. Browseremulering er langsommere end en almindelig installation; en kørsel kan tage fem minutter eller mere. Hold fanen synlig under kørslen. Scenarier gemmes kun i den åbne sides hukommelse.</p><p>Den oprindelige fil henviser til en manglende profil for ekstra eksport, selv om ekstra eksport er sat til nul. Denne inaktive profilhenvisning erstattes derfor med den medfølgende <code>zero.txt</code>; energimængden ændres ikke.</p><h2>Beregnede eksempler</h2><p>Knappen “Se beregnede eksempler” indlæser tidligere gennemførte EnergyPLAN-kørsler. De er tydeligt mærket som eksempler og kan åbnes uden at starte motoren. Deres originale input og output kan downloades. Nye beregninger bruger de værdier, der står i formularen.</p><h2>Reproducerbarhed</h2><p>Program og data er hentet fra <a href="https://github.com/HyRES-FBK/moea/tree/5f5df07ebe31d269a8c92832f9f020fe1e5e833a/EnergyPLAN163">HyRES-FBK/moea · EnergyPLAN163</a>, commit <code>5f5df07ebe31d269a8c92832f9f020fe1e5e833a</code>.</p><p>SHA-256 for EnergyPLAN-programmet:<br><code>9f65cc0e69e5a715b52854fc1aebbfa8a00a6bbfd1118dd348ba293224fc07ae</code>.</p><p>Resultatfiler læses først, når filen er skrevet og indholdet genkendes som EnergyPLAN-output. Et tomt felt vises som en tankestreg; der indsættes ikke erstatningstal.</p><h2>Software og rettigheder</h2><ul><li><a href="https://energyplan.eu/">EnergyPLAN</a> · Aalborg Universitet. Originalt program, uændret. <a href="https://energyplan.eu/useful-resources/calling-energyplan-externally/">Dokumentation for ekstern kørsel</a>.</li><li><a href="https://boxedwine.org/builds/branches/master/builds/140/">Boxedwine build 140</a> · WebAssembly-emulator. <a href="https://github.com/danoon2/Boxedwine/tree/2f02aca8714222209b97f6f2d1b90cabce8ddf12">Tilhørende kildekode</a> og <a href="https://github.com/danoon2/Boxedwine/blob/26R1.0/license.txt">GPL-licens</a>.</li><li><a href="https://www.winehq.org/">Wine</a> · Windows-kompatibilitet. <a href="https://github.com/wine-mirror/wine/tree/wine-11.0">Wine 11-kildekode</a> og <a href="https://github.com/wine-mirror/wine/blob/wine-11.0/COPYING.LIB">LGPL-licens</a>. Det komplette miljø kommer fra <a href="https://boxedwine.org/v2/41/TinyCore15Wine11.0-web.zip">Boxedwines Wine 11-webpakke</a>.</li><li><a href="https://github.com/gzuidhof/coi-serviceworker">coi-serviceworker 0.1.7</a> · Browserisolering til beregningsmiljøet. <a href="licenses/COI-SERVICEWORKER-LICENSE.txt">MIT-licens</a>.</li><li><a href="https://github.com/101arrowz/fflate">fflate 0.8.2</a> · Udpakning af program og data. <a href="licenses/FFLATE-LICENSE.txt">MIT-licens</a>.</li></ul><p>Licenstekster: <a href="licenses/BOXEDWINE-LICENSE.txt">Boxedwine GPL</a> og <a href="licenses/WINE-LICENSE.txt">Wine LGPL</a>.</p><p>Brug resultaterne som udgangspunkt for at undersøge usikkerhed og stille bedre forskningsspørgsmål. Faglig validering af scenariet er stadig nødvendig.</p></article></main><footer><a href="./">EnergyPLAN Lab · Åbn værkstedet</a></footer></body></html>
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Model and sources · EnergyPLAN Lab</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./">EnergyPLAN <b>Lab</b></a>
+  <a style="color:white;font-size:14px" href="./">Back to the workshop</a>
+</header>
+<main>
+  <article class="card about">
+    <p class="eyebrow">MODEL, SOURCES AND SOFTWARE</p>
+    <h1>What does the model calculate?</h1>
+    <aside class="run-guide"><div>
+      <strong>The reference run took about five minutes.</strong>
+      <span>We ran the original EnergyPLAN engine in a browser and retrieved its result files. The supplied dataset produces model warnings. Using it for energy planning would require further validation.</span>
+    </div></aside>
+    <p>This workshop runs the original Windows version of EnergyPLAN 16.3 in your browser. Researchers at Aalborg University developed EnergyPLAN to study how different parts of an energy system interact.</p>
+    <p>EnergyPLAN Lab is an independent, experimental interface. You can find the official EnergyPLAN website under Software and licences below.</p>
+
+    <h2>Where does the reference scenario come from?</h2>
+    <p>The base model is <code>Aalborg2050.txt</code> from the public HyRES-FBK/moea research repository. The year 2050 is the scenario horizon. The dataset describes a research case and should not be read as a current forecast or an adopted municipal plan.</p>
+    <p>You can change annual electricity demand (<code>Input_el_demand_Twh</code>), wind capacity (<code>input_RES1_capacity</code>) and solar PV capacity (<code>input_RES3_capacity</code>). The other inputs and hourly profiles come from the base model. A zero in the wind field applies only to the RES1 category. Other wind categories can still supply electricity.</p>
+    <p>The indicators use EnergyPLAN’s output values and units. The CO₂ card shows <code>CO2-emission (corrected)</code> and lists <code>CO2-emission (total)</code> underneath as the direct model total. Check the scope and corrections before comparing emissions across studies. Costs use the price assumptions in the original dataset.</p>
+
+    <h2>How to use the workshop</h2>
+    <ol>
+      <li>Run the reference scenario.</li>
+      <li>Change one assumption. For example, increase annual electricity demand by 20%.</li>
+      <li>Compare the indicators and read the full result file, including any warnings.</li>
+      <li>Download the input and result files so you can inspect and repeat the run.</li>
+    </ol>
+    <p>The model runs on the device where you open the page. You can use it without an account or a Windows installation. Use Chrome or Firefox. Testing on a physical Mac and in Safari is still pending. Browser emulation can take five minutes or more per run. Keep the tab visible while the model runs. This page keeps scenarios in memory until you close or reload it.</p>
+    <p>The original dataset refers to a missing profile for additional electricity exports. The export quantity is zero, so the workshop uses the supplied <code>zero.txt</code> for this inactive profile and preserves the modelled energy quantity.</p>
+
+    <h2>Worked examples</h2>
+    <p>Select <strong>Open worked examples</strong> to compare two earlier EnergyPLAN runs and download their original input and result files. Each is labelled <strong>Precomputed example</strong>. Select <strong>Run scenario</strong> to start a fresh calculation using the values in the form.</p>
+
+    <h2>Reproducing a run</h2>
+    <p>The program and data come from <a href="https://github.com/HyRES-FBK/moea/tree/5f5df07ebe31d269a8c92832f9f020fe1e5e833a/EnergyPLAN163">HyRES-FBK/moea · EnergyPLAN163</a>, commit <code>5f5df07ebe31d269a8c92832f9f020fe1e5e833a</code>.</p>
+    <p>EnergyPLAN executable SHA-256<br><code>9f65cc0e69e5a715b52854fc1aebbfa8a00a6bbfd1118dd348ba293224fc07ae</code></p>
+    <p>The workshop reads the result file once EnergyPLAN has finished writing it and the contents are recognisable as EnergyPLAN output. A dash indicates a missing value.</p>
+
+    <h2>Software and licences</h2>
+    <ul>
+      <li><a href="https://energyplan.eu/">EnergyPLAN</a>, developed by Aalborg University. The workshop uses the original executable. <a href="https://energyplan.eu/useful-resources/calling-energyplan-externally/">Documentation for calling EnergyPLAN externally</a>.</li>
+      <li><a href="https://boxedwine.org/builds/branches/master/builds/140/">Boxedwine build 140</a> provides the WebAssembly emulator. <a href="https://github.com/danoon2/Boxedwine/tree/2f02aca8714222209b97f6f2d1b90cabce8ddf12">Matching source code</a> and <a href="https://github.com/danoon2/Boxedwine/blob/26R1.0/license.txt">GPL licence</a>.</li>
+      <li><a href="https://www.winehq.org/">Wine</a> provides Windows compatibility. <a href="https://github.com/wine-mirror/wine/tree/wine-11.0">Wine 11 source code</a> and <a href="https://github.com/wine-mirror/wine/blob/wine-11.0/COPYING.LIB">LGPL licence</a>. The runtime comes from the <a href="https://boxedwine.org/v2/41/TinyCore15Wine11.0-web.zip">Boxedwine Wine 11 web package</a>.</li>
+      <li><a href="https://github.com/gzuidhof/coi-serviceworker">coi-serviceworker 0.1.7</a> enables the browser isolation required by the model engine. <a href="licenses/COI-SERVICEWORKER-LICENSE.txt">MIT licence</a>.</li>
+      <li><a href="https://github.com/101arrowz/fflate">fflate 0.8.2</a> unpacks the program and its data. <a href="licenses/FFLATE-LICENSE.txt">MIT licence</a>.</li>
+    </ul>
+    <p>Bundled licence texts are available for <a href="licenses/BOXEDWINE-LICENSE.txt">Boxedwine (GPL)</a> and <a href="licenses/WINE-LICENSE.txt">Wine (LGPL)</a>.</p>
+    <p>Use these scenarios to explore uncertainty and develop research questions. Assess the assumptions and validate the results before drawing planning conclusions.</p>
+  </article>
+</main>
+<footer><a href="./">EnergyPLAN Lab · Open the workshop</a></footer>
+</body>
+</html>

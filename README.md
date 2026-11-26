@@ -1,8 +1,10 @@
 # EnergyPLAN Browser Lab
 
-Run the original **EnergyPLAN 16.3** Windows executable in a web browser, change a small set of assumptions, and compare energy-system scenarios. The interface is in Danish and was built as an experimental workshop demonstration for **AI Agents in Research / Sustainable Energy Planning**.
+Run the original **EnergyPLAN 16.3** Windows executable in a web browser, change a small set of assumptions, and compare energy-system scenarios. The interface is in English and was built as an experimental workshop demonstration for **AI Agents in Research / Sustainable Energy Planning**.
 
-**Til workshopdeltagere:** [Åbn EnergyPLAN i browseren](https://energyplan-futures-lab.lottea.chatgpt.site/). Du behøver hverken login eller installation. Vælg **Se beregnede eksempler** for en hurtig start, eller **Kør beregning** for at prøve dit eget scenarie.
+**For workshop participants**
+
+Select **Open worked examples** for an immediate comparison, or **Run scenario** to test your own assumptions. You can do both without signing in or installing software. [Open EnergyPLAN Lab](https://energyplan-futures-lab.lottea.chatgpt.site/).
 
 > **Validation status:** two complete browser calculations have been observed. Numerical agreement with a separate native Windows run has **not** been established. The supplied scenario produces three model warnings and is not a validated energy plan. This is an independent demonstration, not an official AAU web service.
 
@@ -36,7 +38,7 @@ The preparation script uses the Python standard library. It expands the two reco
 
 **For an offline workshop:** run preparation once before the event. If you only want to show the recorded results, use `python3 scripts/prepare.py --examples-only` instead; it needs no network after cloning. To enable new calculations offline, supply a previously downloaded copy of [the pinned Wine archive](https://boxedwine.org/v2/41/TinyCore15Wine11.0-web.zip) with `python3 scripts/prepare.py --wine-archive /path/to/TinyCore15Wine11.0-web.zip`, then start the same local server. A different archive is rejected.
 
-For a quick first look, select **“Se beregnede eksempler”**. To execute the model, choose a preset or edit the inputs and select **“Kør beregning”**.
+For a quick first look, select **Open worked examples**. To execute the model, choose a preset or edit the inputs and select **Run scenario**.
 
 ## Inputs and outputs
 
@@ -50,7 +52,7 @@ All other model assumptions come from the supplied scenario. A zero in RES1 desc
 
 The main CO₂ card reads `CO2-emission (corrected)`; `CO2-emission (total)` is shown separately. The other cards read `Fuel Consumption (total)` and `TOTAL ANNUAL COSTS`. Units are extracted from the result file. Missing values display as a dash rather than an invented zero.
 
-Inputs are downloaded as UTF-16 LE with a byte-order mark. Result downloads preserve the original output bytes. The recorded example outputs use Windows-1252. CSV exports use semicolons and Danish decimal commas; text cells that could be interpreted as formulas are escaped.
+Inputs are downloaded as UTF-16 LE with a byte-order mark. Result downloads preserve the original output bytes. The recorded example outputs use Windows-1252. CSV exports use English headings, comma-separated columns and decimal points. Text cells that could be interpreted as formulas are escaped.
 
 ## Where the demonstration scenario comes from
 
@@ -133,7 +135,7 @@ The check validates the runtime archive hashes, recorded output hashes, actual p
 
 | Path | Purpose |
 | --- | --- |
-| `dist/index.html`, `dist/styles.css` | Danish interface and styling |
+| `dist/index.html`, `dist/styles.css` | English interface and styling |
 | `dist/app.js` | Form handling, execution lifecycle, comparisons, downloads |
 | `dist/parser.js` | Result-field extraction and UTF-16 encoding |
 | `dist/engine.html`, `dist/engine-bridge.js` | Emulator view and EnergyPLAN integration |
